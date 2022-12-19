@@ -9,6 +9,8 @@ const Register = () => {
 		password: '',
 	});
 
+	const [err, setError] = useState(null);
+
 	const handleChange = (e) => {
 		setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 	};
@@ -18,8 +20,8 @@ const Register = () => {
 		try {
 			const res = await axios.post('/auth/register', inputs);
 			console.log(res);
-		} catch (error) {
-			console.log(error);
+		} catch (err) {
+			setError(err.response.data);
 		}
 	};
 
@@ -49,7 +51,7 @@ const Register = () => {
 					onChange={handleChange}
 				/>
 				<button onClick={handleSubmit}>Register</button>
-				<p>This is an error!</p>
+				{err && <p>{err}</p>}
 				<span>
 					Do you have an account? <Link to='/login'>Login</Link>
 				</span>
